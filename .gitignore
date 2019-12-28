@@ -1,0 +1,18 @@
+nbproject/
+test.php
+core/config/common.config.php
+plugins
+sftp-config.json
+.project
+.DS_Store
+Thumbs.db
+*.php~
+composer.lock
+
+# Visual Studio Code
+.vs/
+.vscode/
+*.code-workspace
+
+# Espace de travail
+workspace/
