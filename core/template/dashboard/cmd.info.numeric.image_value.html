@@ -1,0 +1,48 @@
+<div class="cmd cmd-widget cursor #history#" data-type="info" data-subtype="numeric" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
+    <div class="title #hide_name#">
+        <div class="cmdName">#name_display#</div>
+    </div>
+    <div class="content-sm ">
+        <span class="imgCmd"></span>
+    </div>
+    <div class="value">
+        <span class="timeCmd label label-default value"></span>
+    </div>
+    <script>
+	jeedom.cmd.update['#id#'] = function(_options) {
+        var cmd = $('.cmd[data-cmd_id=#id#]');
+
+        // Paramétre du dossier des images classées par type
+        var imageType = ('#type#' == '#'+'type#') ? '#generic_type#/' : '#type#/';
+        if (imageType == '/') imageType = 'defaut/';
+
+        // Paramètre de l'image
+        var imageLogo = ('#logo#' == '#'+'logo#') ? 'defaut' : '#logo#';
+        var imageExt = ('#extension#' == '#'+'extension#') ? '' : '#extension#';
+        imageExt = (imageExt == '' && imageType != 'animated/') ? 'png' : 'gif';
+        var imageSize = 'width="80" height="80"';
+        var imageURI  = 'plugins/WidgetBySab/images/numeric/' + imageType.toLowerCase() + imageLogo.toLowerCase();
+        var imageTag  = '<img src="' + imageURI + '-%s.' + imageExt + '" ' + imageSize + '>'
+
+        // Paramètre TimeLine
+        var paramTimeLine = '#timeline#';
+
+        // Affichage des données
+        cmd.attr('title', 'Date de valeur : '+_options.valueDate+'<br/>Date de collecte : '+_options.collectDate);
+        var value = parseInt(_options.display_value);
+        if ( isNaN(value) ) {
+            cmd.find('.imgCmd').empty().append('<img src="plugins/WidgetBySab/images/error.png" width="80px">');
+        } else {
+            cmd.find('.imgCmd').empty().append(imageTag.replace('%s', value));
+        }
+
+        // Affichage de la timeline
+        if (paramTimeLine == 'duree') {
+            jeedom.cmd.displayDuration(_options.valueDate,  cmd.find('.timeCmd'));
+        } else {
+            cmd.find('.timeCmd').parent().remove();
+        }
+	} 
+	jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
+</script>
+</div>
