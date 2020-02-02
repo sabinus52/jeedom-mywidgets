@@ -1,0 +1,32 @@
+<div class="cmd cmd-widget cursor" data-type="action" data-subtype="other" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
+    <div class="title #hide_name#">
+        <div  class="cmdName">#valueName#</div>
+    </div>
+    <div class="content-sm ">
+        <span class="imgCmd"></span>
+    </div>
+    <script>
+        jeedom.cmd.update['#id#'] = function(_options) {
+            var cmd = $('.cmd[data-cmd_id=#id#]');
+
+            // Paramètre de l'image
+            var imageLogo = ('#logo#' == '#'+'logo#') ? '#name#' : '#logo#';
+            var imageSize = 'width="68" height="60"';
+            var imageURI  = 'plugins/WidgetBySab/images/channels/' + imageLogo.toLowerCase().replace(' ', '');
+            var imageTag  = '<img src="' + imageURI + '.png" ' + imageSize + '>';
+
+            cmd.find('.imgCmd').empty().append(imageTag);
+
+            /*var style = '';
+            if ( !isNaN('#_desktop_width_#') ) {
+                style = 'width:#_desktop_width_#px !important;'
+            }
+            cmd.find('.imgCmd img').attr('style',style);*/
+        }
+
+        jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
+        $('.cmd[data-cmd_uid=#uid#] .imgCmd').off().on('click', function () {
+            jeedom.cmd.execute({id: '#id#'});
+        });
+    </script>
+</div>
