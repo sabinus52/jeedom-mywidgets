@@ -37,7 +37,6 @@
             cmd.attr('title', 'Date de valeur : ' + _options.valueDate + '<br/>Date de collecte : ' + _options.collectDate);
             var imageURI  = 'plugins/WidgetBySab/images/binary/' + paramType.toLowerCase() + paramLogo.toLowerCase();
             var imageTag  = '<img src="' + imageURI + '-%s.' + paramExt + '">';
-            console.log('#name#' + imageTag);
             if ( _options.display_value == '1' ) {
                 cmd.attr('data-state','on');
                 cmd.find('.imgCmd').empty().append(imageTag.replace('%s', 'on'));

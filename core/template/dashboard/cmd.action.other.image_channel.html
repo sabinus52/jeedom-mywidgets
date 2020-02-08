@@ -11,7 +11,7 @@
             var paramLogo  = ('#logo#' == '#'+'logo#') ? '#name#' : '#logo#';
             var paramScale = ('#scale_dashboard#' == '#'+'scale_dashboard#') ? '#scale#' : '#scale_dashboard#';
             var paramStyle = ('#style#' == '#'+'style#') ? '' : '#style#';
-            paramStyle = ('#style_mobile#' == '#'+'style_mobile#') ? paramStyle : '#style_mobile#';
+            paramStyle = ('#style_dashboard#' == '#'+'style_dashboard#') ? paramStyle : '#style_dashboard#';
             
             // Taille de l'image
             paramScale = parseFloat(paramScale);
@@ -19,14 +19,14 @@
                 if ( paramScale >= 0 && paramScale <= 1) {
                     paramScale = Math.round(paramScale * 100);
                 }
-                if ( paramScale > 1 && paramScale <= 100 ) {
-                    imageStyle = imageStyle + "width: " + paramScale + "%;";
+                if ( paramScale > 1 && paramScale <= 200 ) {
+                    imageStyle = imageStyle + "width:" + paramScale + "%;";
                 }
             }
             
             // Style de l'image
             if ( paramStyle ) {
-                imageStyle = imageStyle + paramStyle;
+                imageStyle = imageStyle + ' ' + paramStyle;
             }
             
             // Affichage de l'image
@@ -35,9 +35,9 @@
             cmd.find('.imgCmd img').attr('style', imageStyle);
         }
 
-        jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
+        jeedom.cmd.update['#id#']({ display_value:'#state#', valueDate:'#valueDate#', collectDate:'#collectDate#', alertLevel:'#alertLevel#' });
         $('.cmd[data-cmd_uid=#uid#] .imgCmd').off().on('click', function () {
-            jeedom.cmd.execute({id: '#id#'});
+            jeedom.cmd.execute({ id:'#id#' });
         });
     </script>
 </div>
