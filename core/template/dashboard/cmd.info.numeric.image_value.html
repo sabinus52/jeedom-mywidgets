@@ -9,40 +9,54 @@
         <span class="timeCmd label label-default value"></span>
     </div>
     <script>
-	jeedom.cmd.update['#id#'] = function(_options) {
-        var cmd = $('.cmd[data-cmd_id=#id#]');
+	    jeedom.cmd.update['#id#'] = function(_options) {
+            var cmd = $('.cmd[data-cmd_id=#id#]');
+            var imageStyle = '';
 
-        // Paramétre du dossier des images classées par type
-        var imageType = ('#type#' == '#'+'type#') ? '#generic_type#/' : '#type#/';
-        if (imageType == '/') imageType = 'defaut/';
+            // Paramétre du dossier des images classées par type
+            var paramType = ('#type#' == '#'+'type#') ? '#generic_type#/' : '#type#/';
+            if (paramType == '/') paramType = 'defaut/';
 
-        // Paramètre de l'image
-        var imageLogo = ('#logo#' == '#'+'logo#') ? 'defaut' : '#logo#';
-        var imageExt = ('#extension#' == '#'+'extension#') ? '' : '#extension#';
-        imageExt = (imageExt == '' && imageType != 'animated/') ? 'png' : 'gif';
-        var imageSize = 'width="80" height="80"';
-        var imageURI  = 'plugins/WidgetBySab/images/numeric/' + imageType.toLowerCase() + imageLogo.toLowerCase();
-        var imageTag  = '<img src="' + imageURI + '-%s.' + imageExt + '" ' + imageSize + '>'
 
-        // Paramètre TimeLine
-        var paramTimeLine = '#timeline#';
+            // Paramètre de l'image
+            var paramLogo = ('#logo#' == '#'+'logo#') ? 'defaut' : '#logo#';
+            var paramExt = ('#extension#' == '#'+'extension#') ? '' : '#extension#';
+            paramExt = (paramExt == '' && paramType != 'animated/') ? 'png' : 'gif';
+            var paramSize = ('#size_dashboard#' == '#'+'size_dashboard#') ? '#size#' : '#size_dashboard#';
+            paramSize = parseInt(paramSize);
+            if ( !isNaN(paramSize) ) {
+                imageStyle = imageStyle + 'width:' + paramSize + 'px;';
+            } else {
+                imageStyle = imageStyle + 'width:80px;';
+            }
+            var paramStyle = ('#style#' == '#'+'style#') ? '' : '#style#';
+            paramStyle = ('#style_dashboard#' == '#'+'style_dashboard#') ? paramStyle : '#style_dashboard#';
+            if ( paramStyle ) {
+                imageStyle = imageStyle + ' ' + paramStyle;
+            }
 
-        // Affichage des données
-        cmd.attr('title', 'Date de valeur : '+_options.valueDate+'<br/>Date de collecte : '+_options.collectDate);
-        var value = parseInt(_options.display_value);
-        if ( isNaN(value) ) {
-            cmd.find('.imgCmd').empty().append('<img src="plugins/WidgetBySab/images/error.png" width="80px">');
-        } else {
-            cmd.find('.imgCmd').empty().append(imageTag.replace('%s', value));
-        }
+            // Paramètre TimeLine
+            var paramTime = '#time#';
 
-        // Affichage de la timeline
-        if (paramTimeLine == 'duree') {
-            jeedom.cmd.displayDuration(_options.valueDate,  cmd.find('.timeCmd'));
-        } else {
-            cmd.find('.timeCmd').parent().remove();
-        }
-	} 
-	jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
-</script>
+            // Affichage des données
+            cmd.attr('title', 'Date de valeur : ' + _options.valueDate + '<br/>Date de collecte : ' + _options.collectDate);
+            var imageURI  = 'plugins/WidgetBySab/images/numeric/' + paramType.toLowerCase() + paramLogo.toLowerCase();
+            var imageTag  = '<img src="' + imageURI + '-%s.' + paramExt + '">';
+            var value = parseInt(_options.display_value);
+            if ( isNaN(value) ) {
+                cmd.find('.imgCmd').empty().append('<img src="plugins/WidgetBySab/images/error.png">');
+            } else {
+                cmd.find('.imgCmd').empty().append(imageTag.replace('%s', value));
+            }
+            cmd.find('.imgCmd img').attr('style', imageStyle);
+
+            // Affichage de la timeline
+            if (paramTime == 'duree') {
+                jeedom.cmd.displayDuration(_options.valueDate,  cmd.find('.timeCmd'));
+            } else {
+                cmd.find('.timeCmd').parent().remove();
+            }
+        } 
+        jeedom.cmd.update['#id#']({ display_value:'#state#', valueDate:'#valueDate#', collectDate:'#collectDate#', alertLevel:'#alertLevel#' });
+    </script>
 </div>
