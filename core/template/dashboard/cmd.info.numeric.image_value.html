@@ -39,11 +39,11 @@
 
             // Affichage des données
             cmd.attr('title', 'Date de valeur : ' + _options.valueDate + '<br/>Date de collecte : ' + _options.collectDate);
-            var imageURI  = 'plugins/WidgetBySab/images/numeric/' + paramType.toLowerCase() + paramLogo.toLowerCase();
+            var imageURI  = 'plugins/TopWidgets/images/numeric/' + paramType.toLowerCase() + paramLogo.toLowerCase();
             var imageTag  = '<img src="' + imageURI + '-%s.' + paramExt + '">';
             var value = parseInt(_options.display_value);
             if ( isNaN(value) ) {
-                cmd.find('.imgCmd').empty().append('<img src="plugins/WidgetBySab/images/error.png">');
+                cmd.find('.imgCmd').empty().append('<img src="plugins/TopWidgets/images/error.png">');
             } else {
                 cmd.find('.imgCmd').empty().append(imageTag.replace('%s', value));
             }

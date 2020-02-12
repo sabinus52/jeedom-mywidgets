@@ -18,16 +18,16 @@
 
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
-function WidgetBySab_install() {
+function TopWidgets_install() {
     
 }
 
-function WidgetBySab_update() {
+function TopWidgets_update() {
     
 }
 
 
-function WidgetBySab_remove() {
+function TopWidgets_remove() {
     
 }
 

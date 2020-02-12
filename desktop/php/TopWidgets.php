@@ -2,7 +2,7 @@
 if (!isConnect('admin')) {
 	throw new Exception('{{401 - Accès non autorisé}}');
 }
-$plugin = plugin::byId('WidgetBySab');
+$plugin = plugin::byId('TopWidgets');
 sendVarToJS('eqType', $plugin->getId());
 $eqLogics = eqLogic::byType($plugin->getId());
 ?>
@@ -119,5 +119,5 @@ foreach (jeeObject::all() as $object) {
 </div>
 </div>
 
-<?php include_file('desktop', 'WidgetBySab', 'js', 'WidgetBySab');?>
+<?php include_file('desktop', 'TopWidgets', 'js', 'TopWidgets');?>
 <?php include_file('core', 'plugin.template', 'js');?>

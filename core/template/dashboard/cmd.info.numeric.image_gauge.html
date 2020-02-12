@@ -3,7 +3,7 @@
       <div class="cmdName">#name_display#</div>
     </div>
     <div class="tw-gauge">
-        <img src="plugins/WidgetBySab/images/gauge/back-blanc.png">
+        <img src="plugins/TopWidgets/images/gauge/back-blanc.png">
         <div class="tw-gauge-scale minimum"></div>
         <div class="tw-gauge-scale firstquarter"></div>
         <div class="tw-gauge-scale middle" style="width:100%;"></div>
@@ -64,10 +64,10 @@
             cmd.find('div.maximum').text(valueMaximum);
             cmd.find('.tw-gauge-value').text(_options.display_value);
             
-            cmd.find('.tw-gauge img').attr('src', 'plugins/WidgetBySab/images/gauge/back-' + paramColor + '.png')
+            cmd.find('.tw-gauge img').attr('src', 'plugins/TopWidgets/images/gauge/back-' + paramColor + '.png')
             
             cmd.find('.tw-gauge-indicator').css( {'-webkit-transform':'rotate('+angle+'deg)','-moz-transform':'rotate('+angle+'deg)','-ms-transform':'rotate('+angle+'deg)','-o-transform':'rotate('+angle+'deg)','transform':'rotate('+angle+'deg)'});
-            cmd.find('.tw-gauge-indicator').css('background', 'url(./plugins/WidgetBySab/images/gauge/indicator-' + paramColor + '.png) center');
+            cmd.find('.tw-gauge-indicator').css('background', 'url(./plugins/TopWidgets/images/gauge/indicator-' + paramColor + '.png) center');
 
 
             cmd.css({ 'width':'140px', 'height':'160px' });
@@ -88,7 +88,7 @@
     <style>
         @font-face {
             font-family: "Digital7";
-            src: url("plugins/WidgetBySab/images/gauge/font/digital-7.ttf") format("truetype");
+            src: url("plugins/TopWidgets/images/gauge/font/digital-7.ttf") format("truetype");
             font-weight: normal;
             font-style: normal;
             color: #F0F0F0;

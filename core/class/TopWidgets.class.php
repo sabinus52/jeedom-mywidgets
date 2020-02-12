@@ -19,7 +19,7 @@
 /* * ***************************Includes********************************* */
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
-class WidgetBySab extends eqLogic {
+class TopWidgets extends eqLogic {
     /*     * *************************Attributs****************************** */
 
 
@@ -106,7 +106,7 @@ class WidgetBySab extends eqLogic {
     /*     * **********************Getteur Setteur*************************** */
 }
 
-class WidgetBySabCmd extends cmd {
+class TopWidgetsCmd extends cmd {
     /*     * *************************Attributs****************************** */
 
 
