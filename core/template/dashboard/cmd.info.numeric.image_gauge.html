@@ -2,8 +2,8 @@
     <div class="title #hide_name#">
       <div class="cmdName">#name_display#</div>
     </div>
-    <div class="tw-gauge">
-        <img src="plugins/TopWidgets/images/gauge/back-blanc.png">
+    <div class="tw-gauge" style="position:relative;color:#F0F0F0;">
+        <img src="plugins/TopWidgets/images/gauge/back-white.png">
         <div class="tw-gauge-scale minimum"></div>
         <div class="tw-gauge-scale firstquarter"></div>
         <div class="tw-gauge-scale middle" style="width:100%;"></div>
@@ -12,22 +12,22 @@
         <div class="tw-gauge-value" style="position:absolute;font-family:Digital7;"></div> 
         <div class="tw-gauge-unit" style="position:absolute;width:100%;">#unite#</div>
     </div>
-    <div class="tw-gauge-indicator"></div>
+    <div class="tw-gauge-indicator" style="position:absolute;transition:transform .8s;"></div>
     <div class="cmdStats #hide_history#">
         <span title='Min' class='tooltips'>#minHistoryValue#</span>|<span title='Moyenne' class='tooltips'>#averageHistoryValue#</span>|<span title='Max' class='tooltips'>#maxHistoryValue#</span> <i class="#tendance#"></i>
     </div>
 
-          
     <script>
         jeedom.cmd.update['#id#'] = function(_options) {
             var cmd = $('.cmd[data-cmd_id=#id#]');
 
             // Paramètre de la gauge
+            var paramColor = ('#color#' == '#'+'color#') ? 'white' : '#color#';
             var paramColor = ('#color#' == '#'+'color#') ? 'blanc' : '#color#';
 
             // Valeur min, max et intermédiaire
             var valueMinimum = parseFloat('#minValue#');
-            var valueMaximum = parseFloat('#maxValue#');         
+            var valueMaximum = parseFloat('#maxValue#');
             var valueMiddle = Math.round((valueMinimum + valueMaximum)/2);
             var valueFirstQuarter = Math.round((valueMinimum + valueMiddle)/2);
             var valueLastQuarter = Math.round((valueMiddle + valueMaximum)/2);
@@ -63,24 +63,24 @@
             cmd.find('div.lastquarter').text(valueLastQuarter);
             cmd.find('div.maximum').text(valueMaximum);
             cmd.find('.tw-gauge-value').text(_options.display_value);
-            
-            cmd.find('.tw-gauge img').attr('src', 'plugins/TopWidgets/images/gauge/back-' + paramColor + '.png')
-            
+
+            // Affichage de l'image
+            cmd.find('.tw-gauge img').attr('src', 'plugins/TopWidgets/images/gauge/back-' + paramColor + '.png');
             cmd.find('.tw-gauge-indicator').css( {'-webkit-transform':'rotate('+angle+'deg)','-moz-transform':'rotate('+angle+'deg)','-ms-transform':'rotate('+angle+'deg)','-o-transform':'rotate('+angle+'deg)','transform':'rotate('+angle+'deg)'});
             cmd.find('.tw-gauge-indicator').css('background', 'url(./plugins/TopWidgets/images/gauge/indicator-' + paramColor + '.png) center');
 
 
-            cmd.css({ 'width':'140px', 'height':'160px' });
+                    cmd.css({ 'width':'140px', 'height':'160px' });
             //cmd.find('.tw-gauge').css({ 'left':'10px' });
-            cmd.find('.tw-gauge img').css({ 'width':'120px', 'height':'120px' });
-            cmd.find('.tw-gauge-indicator').css({ 'width':'75px', 'height':'75px', 'top':'40px', 'left':'33px' });
-            cmd.find('div.minimum').css({ 'font-size':'0.75em', 'top':'65px', 'left':'32px' });
-            cmd.find('div.firstquarter').css({ 'font-size':'0.75em', 'top':'35px', 'left':'36px' });
-            cmd.find('div.middle').css({ 'font-size':'0.75em', 'top':'18px' });
-            cmd.find('div.lastquarter').css({ 'font-size':'0.75em', 'top':'35px', 'right':'36px' });
-            cmd.find('div.maximum').css({ 'font-size':'0.75em', 'top':'65px', 'right':'32px' });
-            cmd.find('.tw-gauge-value').css({ 'font-size':'24px', 'top':'84px', 'right':'41px' });
-            cmd.find('.tw-gauge-unit').css({ 'font-size':'10px', 'top':'67px' });
+                    cmd.find('.tw-gauge img').css({ 'width':'120px', 'height':'120px' });
+                    cmd.find('.tw-gauge-indicator').css({ 'width':'75px', 'height':'75px', 'top':'40px', 'left':'33px' });
+                    cmd.find('div.minimum').css({ 'font-size':'0.75em', 'top':'65px', 'left':'32px' });
+                    cmd.find('div.firstquarter').css({ 'font-size':'0.75em', 'top':'35px', 'left':'36px' });
+                    cmd.find('div.middle').css({ 'font-size':'0.75em', 'top':'18px' });
+                    cmd.find('div.lastquarter').css({ 'font-size':'0.75em', 'top':'35px', 'right':'36px' });
+                    cmd.find('div.maximum').css({ 'font-size':'0.75em', 'top':'65px', 'right':'32px' });
+                    cmd.find('.tw-gauge-value').css({ 'font-size':'24px', 'top':'84px', 'right':'41px' });
+                    cmd.find('.tw-gauge-unit').css({ 'font-size':'10px', 'top':'67px' });
      
         }
         jeedom.cmd.update['#id#']({ display_value:'#state#', valueDate:'#valueDate#', collectDate:'#collectDate#', alertLevel:'#alertLevel#' });
@@ -93,17 +93,14 @@
             font-style: normal;
             color: #F0F0F0;
         }
-
         .cmd[data-cmd_uid='#uid#'] .tw-gauge {
             position:relative;
             color:#F0F0F0;
         }
-
         .cmd[data-cmd_uid='#uid#'] .tw-gauge-scale {
             position:absolute;
             font-weight:bold;
         }
-  
         .cmd[data-cmd_uid='#uid#'] .tw-gauge-indicator {
             position:absolute;
             transition:transform .8s;
