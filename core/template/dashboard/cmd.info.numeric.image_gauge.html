@@ -24,6 +24,11 @@
             // Paramètre de la gauge
             var paramColor = ('#color#' == '#'+'color#') ? 'white' : '#color#';
             var paramSize  = ('#size#' == '#'+'size#') ? 'medium' : '#size#';
+            // Paramètre de l'alerte
+            var paramAlertWarning = parseFloat('#alert_warning#');
+            var paramAlertCritical = parseFloat('#alert_critical#');
+            if ( !isNaN(paramAlertWarning) && _options.display_value > paramAlertWarning ) paramColor = 'orange';
+            if ( !isNaN(paramAlertCritical) && _options.display_value > paramAlertCritical ) paramColor = 'red';
 
             // Valeur min, max et intermédiaire
             var valueMinimum = parseFloat('#minValue#');

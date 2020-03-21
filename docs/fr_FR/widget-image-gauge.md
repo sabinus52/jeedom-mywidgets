@@ -17,3 +17,8 @@ Possiblité de configurer l'affichage du widget avec les paramètres optionnels 
 
 > - **color** : Choix de la couleur de la gauge. Valeur possible (blue, green, orange, pink, purple, turquoise, white, yellow)
 > - **size** : Dimension du widget. Valeur possible (small, medium, large)
+
+Possibilité de changer la couleur de la gauge en fonction d'un dépassement de seuil de valeur :
+
+> - **alert_warning** : Seuil au delà le widget passera à la couleur *orange*
+> - **alert_critical** : Seuil au delà le widget passera à la couleur *rouge*
