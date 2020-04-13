@@ -13,4 +13,6 @@ Compilation et amélioration des meilleurs widgets Jeedom.
 
 - [Widget "Thermometre_gauge"](widget-thermometre-gauge.md) : Gauge thermomètre
 
+- [Widget "Barometre"](widget-barometre.md) : Baromètre
+
 - [Widget "Image_Channel"](widget-image-channel.md) : Commandes sur les chaînes TV

@@ -1,0 +1,98 @@
+
+<div class="cmd cmd-widget" style="min-width:100px; min-height:60px;" data-type="info" data-subtype="numeric" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
+    <div class="title #hide_name#">
+        <div class="cmdName">#name_display#</div>
+    </div>
+    <div style="position:relative;" class="barometre">
+      	<span style="position:relative;"></span>
+    </div>
+    <div style="display:inline-block;">
+        <div class="value">
+            <span class="timeCmd id-value label label-default" style="font-size:1em !important; margin-bottom:8px;"><strong></strong></span>
+            <!-- Historique -->
+            <div class="cmdStats #hide_history#" style="font-size:0.7em !important; text-align:left;">
+                <div>Min : #minHistoryValue# #unite#</div>
+                <div>Moy : #averageHistoryValue# #unite#</div>
+                <div>Max : #maxHistoryValue# #unite#</div>
+                <div><i class="#tendance#"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        jeedom.cmd.update['#id#'] = function(_options) {
+            var cmd = $('.cmd[data-cmd_id=#id#]');
+
+            var imageStyle = '';
+
+            // Paramètre de l'image
+            var paramPosition = ('#position#' == '#'+'position#') ? 'left' : '#position#';
+            var paramSize = ('#size_mobile#' == '#'+'size_mobile#') ? '#size#' : '#size_mobile#';
+            paramSize = parseInt(paramSize);
+            if ( !isNaN(paramSize) ) {
+                imageStyle = imageStyle + 'width:' + paramSize + 'px;';
+            } else {
+                imageStyle = imageStyle + 'width:70px;';
+            }
+            var paramStyle = ('#style#' == '#'+'style#') ? '' : '#style#';
+            paramStyle = ('#style_mobile#' == '#'+'style_mobile#') ? paramStyle : '#style_mobile#';
+            if ( paramStyle ) {
+                imageStyle = imageStyle + ' ' + paramStyle;
+            }
+
+            // Calcul de la gauge vertical
+            var minValue = ('#minValue#' == '') ? 0 : parseInt('#minValue#');
+            var maxValue = ('#maxValue#' == '') ? 100 : parseInt('#maxValue#');
+            var height = Math.round(((_options.display_value - minValue) * 100) / (maxValue - minValue));
+
+            // Affichage de l'image
+            cmd.attr('title', 'Date de valeur : ' + _options.valueDate + '<br/>Date de collecte : ' + _options.collectDate);
+            cmd.find('.id-value strong').first().text(_options.display_value + ' #unite#');
+            var imageURI  = 'plugins/TopWidgets/images/barometre/pression-%s.png';
+            var value = parseFloat(_options.display_value);
+            if (value > 900 && value <= 954) {
+                imageURI = imageURI.replace('%s', "940");
+            } else if (value > 945 && value <= 955) {
+                imageURI = imageURI.replace('%s', "960");
+            } else if (value > 955 && value <= 965) {
+                imageURI = imageURI.replace('%s', "960");
+            } else if (value > 965 && value <= 975) {
+                imageURI = imageURI.replace('%s', "970");
+            } else if (value > 975 && value <= 985) {
+                imageURI = imageURI.replace('%s', "980");
+            } else if (value > 985 && value <= 1005) {
+                imageURI = imageURI.replace('%s', "1000");
+            } else if (value > 1005 && value <= 1015) {
+                imageURI = imageURI.replace('%s', "1010");
+            } else if (value > 1015 && value <= 1025) {
+                imageURI = imageURI.replace('%s', "1020");
+            } else if (value > 1025 && value <= 1035) {
+                imageURI = imageURI.replace('%s', "1030");
+            } else if (value > 1035 && value <= 1045) {
+                imageURI = imageURI.replace('%s', "1040");
+            } else if (value > 1045 && value <= 1055) {
+                imageURI = imageURI.replace('%s', "1050");
+            } else if (value > 1055 && value <= 1500) {
+                imageURI = imageURI.replace('%s', "1060");
+            } else  {
+                imageURI = 'plugins/TopWidgets/images/error.png';
+            }
+            var imageTag  = '<img src="' + imageURI + '">';
+            cmd.find('.barometre span').empty().append(imageTag);
+            cmd.find('.barometre span img').attr('style', imageStyle);
+            if (paramPosition == 'right') {
+                cmd.find('.barometre').css('float', 'right');
+            } else if (paramPosition == 'bottom') {
+            } else {
+                cmd.find('.barometre').css('float', 'left');
+            }
+            // Si pas d'affichage de statitstiques
+            if ('#hide_history#' == 'hidden')  {
+                cmd.find('.barometre').css('float', 'none');
+                cmd.find('.id-value').css('font-size', '1em');
+            }
+
+        } 
+        jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
+    </script>
+</div>
