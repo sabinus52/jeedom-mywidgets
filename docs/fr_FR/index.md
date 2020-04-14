@@ -16,3 +16,5 @@ Compilation et amélioration des meilleurs widgets Jeedom.
 - [Widget "Barometre"](widget-barometre.md) : Baromètre
 
 - [Widget "Image_Channel"](widget-image-channel.md) : Commandes sur les chaînes TV
+
+- [Widget "Image_Action"](widget-image-action.md) : Image sur une commande
