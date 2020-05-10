@@ -25,6 +25,9 @@
             </div>
         </div>
     </div>
+    <div class="value" style="clear: both; position: relative;">
+        <span class="timeCmd label label-default value timeid"></span>
+    </div>
     <script>
         jeedom.cmd.update['#id#'] = function(_options) {
             var cmd = $('.cmd[data-cmd_id=#id#]');
@@ -52,6 +55,9 @@
             // Paramètres des statistiques
             var paramStats = ('#stats#' == '#'+'stats#') ? 'light' : '#stats#';
 
+            // Paramètre TimeLine
+            var paramTime = '#time#';
+
             // Affichage des données
             cmd.attr('title', 'Date de valeur : ' + _options.valueDate + '<br/>Date de collecte : ' + _options.collectDate);
             var imageURI  = 'plugins/TopWidgets/images/numeric/' + paramType.toLowerCase() + paramLogo.toLowerCase();
@@ -73,6 +79,13 @@
                 cmd.find('.stats-full').css('display', 'inline-block');
             } else {
                 cmd.find('.stats-full').remove();
+            }
+
+            // Affichage de la timeline
+            if ( paramTime == 'duree' ) {
+                jeedom.cmd.displayDuration(_options.valueDate, cmd.find('.timeid'));
+            } else {
+                cmd.find('.timeid').parent().remove();
             }
         } 
         jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
