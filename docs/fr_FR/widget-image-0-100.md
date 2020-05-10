@@ -28,3 +28,4 @@ Possiblité de configurer l'affichage du widget avec les paramètres optionnels 
 > - **style** : Style CSS du widget. *(version dashboard et mobile)*
 > - **style_dashboard** : Style CSS du widget en version dashboard
 > - **style_mobile** : Style CSS du widget en version mobile
+> - **stats** : Si on coche *Afficher les statistiques*, il est possible d'afficher les stats en dessous (valeur light) ou à droite de l'image (valeur full)

@@ -2,14 +2,28 @@
     <div class="title #hide_name#">
         <div class="cmdName">#name_display#</div>
     </div>
-    <div class="content-sm ">
-        <span class="imgCmd"></span>
+    <div style="position:unset;" class="content-sm">
+        <span style="position: relative;" class="imgCmd"></span>
     </div>
-    <div class="value">
-        <span class="state"></span>
+    <div style="display:block;" class="stats-light">
+        <div class="value">
+            <span class="state"></span>
+        </div>
+        <div class="cmdStats #hide_history#">
+            <span title='Min' class='tooltips'>#minHistoryValue#</span>|<span title='Moyenne' class='tooltips'>#averageHistoryValue#</span>|<span title='Max' class='tooltips'>#maxHistoryValue#</span> <i class="#tendance#"></i>
+        </div>
     </div>
-    <div class="cmdStats #hide_history#">
-        <span title='Min' class='tooltips'>#minHistoryValue#</span>|<span title='Moyenne' class='tooltips'>#averageHistoryValue#</span>|<span title='Max' class='tooltips'>#maxHistoryValue#</span> <i class="#tendance#"></i>
+    <div style="display:none; margin-left:5px; margin-right:10px;" class="stats-full">
+        <div class="value">
+            <span class="timeCmd id-value label label-default" style="font-size:1.7em !important; margin-bottom:8px;"><strong></strong></span>
+            <!-- Historique -->
+            <div class="cmdStats #hide_history#" style="text-align:left;">
+                <div>Min : #minHistoryValue# #unite#</div>
+                <div>Moy : #averageHistoryValue# #unite#</div>
+                <div>Max : #maxHistoryValue# #unite#</div>
+                <div><i class="#tendance#"></i></div>
+            </div>
+        </div>
     </div>
     <script>
         jeedom.cmd.update['#id#'] = function(_options) {
@@ -35,6 +49,9 @@
                 imageStyle = imageStyle + ' ' + paramStyle;
             }
 
+            // Paramètres des statistiques
+            var paramStats = ('#stats#' == '#'+'stats#') ? 'light' : '#stats#';
+
             // Affichage des données
             cmd.attr('title', 'Date de valeur : ' + _options.valueDate + '<br/>Date de collecte : ' + _options.collectDate);
             var imageURI  = 'plugins/TopWidgets/images/numeric/' + paramType.toLowerCase() + paramLogo.toLowerCase();
@@ -43,11 +60,20 @@
             if ( isNaN(value) ) {
                 cmd.find('.imgCmd').empty().append('<img src="plugins/TopWidgets/images/error.png">');
                 cmd.find('.state').empty().append('');
+                cmd.find('.id-value strong').empty().append('');
             } else {
                 cmd.find('.imgCmd').empty().append(imageTag.replace('%s', value));
                 cmd.find('.state').empty().append(_options.display_value +' #unite#');
+                cmd.find('.id-value strong').empty().append(_options.display_value +' #unite#');
             }
             cmd.find('.imgCmd img').attr('style', imageStyle);
+            if ( paramStats == 'full' && '#hide_history#' != 'hidden' ) {
+                cmd.find('.stats-light').remove();
+                cmd.find('.content-sm').css('position', 'relative').css('float', 'left');
+                cmd.find('.stats-full').css('display', 'inline-block');
+            } else {
+                cmd.find('.stats-full').remove();
+            }
         } 
         jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
     </script>
