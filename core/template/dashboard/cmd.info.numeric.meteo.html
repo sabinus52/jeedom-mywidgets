@@ -1,0 +1,99 @@
+<div class="cmd cmd-widget cursor #history#" style="min-width:130px; min-height:80px ;margin-left:5px" data-type="info" data-subtype="numeric" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
+    <div class="title #hide_name#">
+        <div class="cmdName">#name_display#</div>
+    </div>
+    <div style="position:relative;" class="barometre">
+      	<span style="position:relative;"></span>
+    </div>
+    <div style="display:inline-block; margin-right:5px; margin-left:5px;">
+        <div class="value">
+            <span class="timeCmd id-value label label-default" style="font-size:1.7em !important; margin-bottom:8px;"><strong></strong></span>
+            <!-- Historique -->
+            <div class="cmdStats #hide_history#" style="text-align:left;">
+                <div>Min : #minHistoryValue# #unite#</div>
+                <div>Moy : #averageHistoryValue# #unite#</div>
+                <div>Max : #maxHistoryValue# #unite#</div>
+                <div><i class="#tendance#"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        jeedom.cmd.update['#id#'] = function(_options) {
+            var cmd = $('.cmd[data-cmd_id=#id#]');
+
+            var imageStyle = '';
+
+            // Paramétre du type de la donnée
+            var paramType = '#generic_type#';
+            var rangeType = new Array();
+            switch (paramType) {
+                case 'WEATHER_PRESSURE'     : 
+                    rangeType = [945, 955, 965, 975, 985, 995, 1005, 1015, 1025, 1035, 1045, 1055, 9999];
+                    break;
+                case 'WEATHER_HUMIDITY'     :
+                    rangeType = [5, 15, 25, 35, 45, 55, 65, 75, 85, 95, 100];
+                    break;
+                case 'WEATHER_WIND_SPEED'   :
+                    rangeType = [10, 50, 90, 999];
+                    break;
+                case 'WEATHER_CONDITION_ID' :
+                    rangeType = [299, 399, 510, 520, 599, 699, 799, 801, 802, 803, 809]; 
+                    paramType = paramType.replace('_ID', '');
+                    break;
+                default : rangeType = [];
+            }
+            var imageURI  = 'plugins/TopWidgets/images/' + paramType.replace(/_/g, '/').toLowerCase() + '/%s.png';
+
+            // Paramètre de l'image
+            var paramPosition = ('#position#' == '#'+'position#') ? 'right' : '#position#';
+            var paramSize = ('#size_dashboard#' == '#'+'size_dashboard#') ? '#size#' : '#size_dashboard#';
+            paramSize = parseInt(paramSize);
+            if ( !isNaN(paramSize) ) {
+                imageStyle = imageStyle + 'width:' + paramSize + 'px;';
+            } else {
+                imageStyle = imageStyle + 'width:80px;';
+            }
+            var paramStyle = ('#style#' == '#'+'style#') ? '' : '#style#';
+            paramStyle = ('#style_dashboard#' == '#'+'style_dashboard#') ? paramStyle : '#style_dashboard#';
+            if ( paramStyle ) {
+                imageStyle = imageStyle + ' ' + paramStyle;
+            }
+
+            // Affichage de l'imagec
+            var value = parseFloat(_options.display_value).toFixed(0);
+            cmd.attr('title', 'Date de valeur : ' + _options.valueDate + '<br/>Date de collecte : ' + _options.collectDate);
+            cmd.find('.id-value strong').first().text(value + ' #unite#');
+            if ( rangeType.length == 0) {
+                imageURI = 'plugins/TopWidgets/images/error.png';
+            } else {
+                rangeType.some(function(item) {
+                    if ( value < item ) {
+                        imageURI = imageURI.replace('%s', item);
+                        return true;
+                    }
+                });
+            }
+            var imageTag  = '<img src="' + imageURI + '">';
+            cmd.find('.barometre span').empty().append(imageTag);
+            cmd.find('.barometre span img').attr('style', imageStyle);
+            if (paramPosition == 'left') {
+                cmd.find('.barometre').css('float', 'right');
+            } else if (paramPosition == 'bottom') {
+            } else {
+                cmd.find('.barometre').css('float', 'left');
+            }
+            // Si pas d'affichage de statitstiques
+            if ('#hide_history#' == 'hidden')  {
+                cmd.find('.barometre').css('float', 'none');
+                cmd.find('.id-value').css('font-size', '1em');
+            }
+            // Si Conditions météo, on n'affiche pas le code pour des questions esthétique
+            if ( paramType == 'WEATHER_CONDITION' ) {
+                cmd.find('.id-value').remove();
+            }
+
+        } 
+        jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
+    </script>
+</div>
