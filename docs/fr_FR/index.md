@@ -11,7 +11,6 @@ Widget                                         | Dashboard | Mobile | Aperçu   
 **[Image_value](widget-image-value.md)**             | OUI | OUI | ![](../images/widget-image-value.png)       | Image sur une valeur numérique
 **[Image_Gauge](widget-image-gauge.md)**             | OUI | non | ![](../images/widget-image-gauge.png)       | Gauge numérique
 **[Thermometre_gauge](widget-thermometre-gauge.md)** | OUI | OUI | ![](../images/widget-thermometre-gauge.png) | Gauge thermomètre
-**[Barometre](widget-barometre.md)**                 | OUI | OUI | ![](../images/widget-barometre.png)         | Baromètre
 **[Meteo](widget-meteo.md)**                         | OUI | OUI | ![](../images/widget-meteo-vent.png)        | Météo (baromètre, humidité, vent, conditions)
 **[Image_Channel](widget-image-channel.md)**         | OUI | OUI | ![](../images/widget-image-channel.png)     | Commandes sur les chaînes TV
 **[Image_Action](widget-image-action.md)**           | OUI | OUI | ![](../images/widget-image-action.png)      | Image sur une commande
