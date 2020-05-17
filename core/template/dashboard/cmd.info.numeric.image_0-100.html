@@ -1,0 +1,93 @@
+<div class="cmd cmd-widget cursor #history#" data-type="info" data-subtype="binary" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
+    <div class="title #hide_name#">
+        <div class="cmdName">#name_display#</div>
+    </div>
+    <div style="position:unset;" class="content-sm">
+        <span style="position: relative;" class="imgCmd"></span>
+    </div>
+    <div style="display:block;" class="stats-light">
+        <div class="value">
+            <span class="state"></span>
+        </div>
+        <div class="cmdStats #hide_history#">
+            <span title='Min' class='tooltips'>#minHistoryValue#</span>|<span title='Moyenne' class='tooltips'>#averageHistoryValue#</span>|<span title='Max' class='tooltips'>#maxHistoryValue#</span> <i class="#tendance#"></i>
+        </div>
+    </div>
+    <div style="display:none; margin-left:5px; margin-right:10px;" class="stats-full">
+        <div class="value">
+            <span class="timeCmd id-value label label-default" style="font-size:1.7em !important; margin-bottom:8px;"><strong></strong></span>
+            <!-- Historique -->
+            <div class="cmdStats #hide_history#" style="text-align:left;">
+                <div>Min : #minHistoryValue# #unite#</div>
+                <div>Moy : #averageHistoryValue# #unite#</div>
+                <div>Max : #maxHistoryValue# #unite#</div>
+                <div><i class="#tendance#"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="value" style="clear: both; position: relative;">
+        <span class="timeCmd label label-default value timeid"></span>
+    </div>
+    <script>
+        jeedom.cmd.update['#id#'] = function(_options) {
+            var cmd = $('.cmd[data-cmd_id=#id#]');
+            var imageStyle = '';
+
+            // Paramétre du dossier des images classées par type
+            var paramType = ('#type#' == '#'+'type#') ? '#generic_type#/' : '#type#/';
+
+            // Paramètre de l'image
+            var paramLogo = ('#logo#' == '#'+'logo#') ? 'defaut' : '#logo#';
+            var paramExt = ('#extension#' == '#'+'extension#') ? 'png' : '#extension#';
+            var paramSize = ('#size_dashboard#' == '#'+'size_dashboard#') ? '#size#' : '#size_dashboard#';
+            paramSize = parseInt(paramSize);
+            if ( !isNaN(paramSize) ) {
+                imageStyle = imageStyle + 'width:' + paramSize + 'px;';
+            } else {
+                imageStyle = imageStyle + 'width:80px;';
+            }
+            var paramStyle = ('#style#' == '#'+'style#') ? '' : '#style#';
+            paramStyle = ('#style_dashboard#' == '#'+'style_dashboard#') ? paramStyle : '#style_dashboard#';
+            if ( paramStyle ) {
+                imageStyle = imageStyle + ' ' + paramStyle;
+            }
+
+            // Paramètres des statistiques
+            var paramStats = ('#stats#' == '#'+'stats#') ? 'light' : '#stats#';
+
+            // Paramètre TimeLine
+            var paramTime = '#time#';
+
+            // Affichage des données
+            cmd.attr('title', 'Date de valeur : ' + _options.valueDate + '<br/>Date de collecte : ' + _options.collectDate);
+            var imageURI  = 'plugins/TopWidgets/images/numeric/' + paramType.toLowerCase() + paramLogo.toLowerCase();
+            var imageTag  = '<img src="' + imageURI + '-%s.' + paramExt + '">';
+            var value = Math.round(parseFloat(_options.display_value) / 10) * 10;
+            if ( isNaN(value) ) {
+                cmd.find('.imgCmd').empty().append('<img src="plugins/TopWidgets/images/error.png">');
+                cmd.find('.state').empty().append('');
+                cmd.find('.id-value strong').empty().append('');
+            } else {
+                cmd.find('.imgCmd').empty().append(imageTag.replace('%s', value));
+                cmd.find('.state').empty().append(_options.display_value +' #unite#');
+                cmd.find('.id-value strong').empty().append(_options.display_value +' #unite#');
+            }
+            cmd.find('.imgCmd img').attr('style', imageStyle);
+            if ( paramStats == 'full' && '#hide_history#' != 'hidden' ) {
+                cmd.find('.stats-light').remove();
+                cmd.find('.content-sm').css('position', 'relative').css('float', 'left');
+                cmd.find('.stats-full').css('display', 'inline-block');
+            } else {
+                cmd.find('.stats-full').remove();
+            }
+
+            // Affichage de la timeline
+            if ( paramTime == 'duree' ) {
+                jeedom.cmd.displayDuration(_options.valueDate, cmd.find('.timeid'));
+            } else {
+                cmd.find('.timeid').parent().remove();
+            }
+        } 
+        jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
+    </script>
+</div>

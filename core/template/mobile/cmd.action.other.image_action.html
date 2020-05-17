@@ -1,0 +1,39 @@
+<div class="cmd cmd-widget #history#" data-type="action" data-subtype="other" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" title="#collectDate#">
+    <center>
+        <div class="imgCmd cursor"></div>
+    </center>
+    <script>
+        jeedom.cmd.update['#id#'] = function(_options) {
+            var cmd = $('.cmd[data-cmd_id=#id#]');
+            var imageStyle = '';
+
+            // Paramètre de l'image
+            var paramLogo = ('#logo#' == '#'+'logo#') ? '#generic_type#' : '#logo#';
+            if (paramLogo == '') paramLogo = 'defaut';
+            var paramExt = ('#extension#' == '#'+'extension#') ? '' : '#extension#';
+            var paramSize = ('#size_mobile#' == '#'+'size_mobile#') ? '#size#' : '#size_mobile#';
+            paramSize = parseInt(paramSize);
+            if ( !isNaN(paramSize) ) {
+                imageStyle = imageStyle + 'width:' + paramSize + 'px;';
+            } else {
+                imageStyle = imageStyle + 'width:64px;';
+            }
+            var paramStyle = ('#style#' == '#'+'style#') ? '' : '#style#';
+            paramStyle = ('#style_mobile#' == '#'+'style_mobile#') ? paramStyle : '#style_mobile#';
+            if ( paramStyle ) {
+                imageStyle = imageStyle + ' ' + paramStyle;
+            }
+           
+            // Affichage de l'image
+            cmd.attr('title', "#name_display#");
+            var imageURI = 'plugins/TopWidgets/images/action/' + paramLogo.toLowerCase().replace(' ', '');
+            cmd.find('.imgCmd').empty().append('<img src="' + imageURI + '.png" >');
+            cmd.find('.imgCmd img').attr('style', imageStyle);
+        }
+
+        jeedom.cmd.update['#id#']({ display_value:'#state#', valueDate:'#valueDate#', collectDate:'#collectDate#', alertLevel:'#alertLevel#' });
+        $('.cmd[data-cmd_uid=#uid#] .imgCmd').off().on('click', function () {
+            jeedom.cmd.execute({ id:'#id#' });
+        });
+    </script>    
+</div>

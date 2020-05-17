@@ -1,0 +1,133 @@
+<div class="cmd cmd-widget cursor #history#" data-type="info" data-subtype="numeric" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
+    <div class="title #hide_name#">
+      <div class="cmdName">#name_display#</div>
+    </div>
+    <div class="tw-gauge" style="position:relative;color:#F0F0F0;">
+        <img src="plugins/TopWidgets/images/gauge/back-white.png">
+        <div class="tw-gauge-scale minimum"></div>
+        <div class="tw-gauge-scale firstquarter"></div>
+        <div class="tw-gauge-scale middle" style="width:100%;"></div>
+        <div class="tw-gauge-scale lastquarter"></div>
+        <div class="tw-gauge-scale maximum"></div>
+        <div class="tw-gauge-value" style="position:absolute;font-family:Digital7;"></div> 
+        <div class="tw-gauge-unit" style="position:absolute;width:100%;">#unite#</div>
+    </div>
+    <div class="tw-gauge-indicator" style="position:absolute;transition:transform .8s;"></div>
+    <div class="cmdStats #hide_history#">
+        <span title='Min' class='tooltips'>#minHistoryValue#</span>|<span title='Moyenne' class='tooltips'>#averageHistoryValue#</span>|<span title='Max' class='tooltips'>#maxHistoryValue#</span> <i class="#tendance#"></i>
+    </div>
+
+    <script>
+        jeedom.cmd.update['#id#'] = function(_options) {
+            var cmd = $('.cmd[data-cmd_id=#id#]');
+
+            // Paramètre de la gauge
+            var paramColor = ('#color#' == '#'+'color#') ? 'white' : '#color#';
+            var paramSize  = ('#size#' == '#'+'size#') ? 'medium' : '#size#';
+            // Paramètre de l'alerte
+            var paramAlertWarning = parseFloat('#alert_warning#');
+            var paramAlertCritical = parseFloat('#alert_critical#');
+            if ( !isNaN(paramAlertWarning) && _options.display_value > paramAlertWarning ) paramColor = 'orange';
+            if ( !isNaN(paramAlertCritical) && _options.display_value > paramAlertCritical ) paramColor = 'red';
+
+            // Valeur min, max et intermédiaire
+            var valueMinimum = parseFloat('#minValue#');
+            var valueMaximum = parseFloat('#maxValue#');
+            var valueMiddle = Math.round((valueMinimum + valueMaximum)/2);
+            var valueFirstQuarter = Math.round((valueMinimum + valueMiddle)/2);
+            var valueLastQuarter = Math.round((valueMiddle + valueMaximum)/2);
+
+            // Calcul de l'angle de l'indicateur
+            var range = valueMaximum - valueMinimum;
+            var angle = 0;
+            if ( range == 0 ) {
+                angle = -70;
+            } else if ( valueMinimum < valueMaximum) {
+                if ( _options.display_value < valueMinimum ) {
+                    angle = -10;
+                } else if ( _options.display_value > valueMaximum) {
+                    angle = 232;
+                } else {
+                    angle = (_options.display_value - valueMinimum) * 222 / range;
+                }
+            } else {
+                if ( _options.display_value < valueMaximum ) {
+                    angle = 232;
+                } else if ( _options.display_value > valueMinimum ) {
+                    angle = -10;
+                } else {
+                    angle = (_options.display_value - valueMinimum) * 222 / range;
+                }
+            }
+            
+            // Affichage des données
+            cmd.attr('title', 'Date de valeur : ' + _options.valueDate + '<br/>Date de collecte : ' + _options.collectDate);
+            cmd.find('div.minimum').text(valueMinimum);
+            cmd.find('div.firstquarter').text(valueFirstQuarter);
+            cmd.find('div.middle').text(valueMiddle);
+            cmd.find('div.lastquarter').text(valueLastQuarter);
+            cmd.find('div.maximum').text(valueMaximum);
+            cmd.find('.tw-gauge-value').text(_options.display_value);
+
+            // Affichage de l'image
+            cmd.find('.tw-gauge img').attr('src', 'plugins/TopWidgets/images/gauge/back-' + paramColor + '.png');
+            cmd.find('.tw-gauge-indicator').css( {'-webkit-transform':'rotate('+angle+'deg)','-moz-transform':'rotate('+angle+'deg)','-ms-transform':'rotate('+angle+'deg)','-o-transform':'rotate('+angle+'deg)','transform':'rotate('+angle+'deg)'});
+            cmd.find('.tw-gauge-indicator').css('background', 'url(./plugins/TopWidgets/images/gauge/indicator-' + paramColor + '.png) center');
+
+            // Affichage en fonction de la taille
+            switch (paramSize) {
+                case 'large' :
+                    cmd.css({ 'width':'140px', 'height':'160px' });
+                    cmd.find('.tw-gauge img').css({ 'width':'120px', 'height':'120px' });
+                    cmd.find('.tw-gauge-indicator').css({ 'width':'75px', 'height':'75px', 'top':'40px', 'left':'33px' });
+                    cmd.find('div.minimum').css({ 'font-size':'0.75em', 'top':'65px', 'left':'32px' });
+                    cmd.find('div.firstquarter').css({ 'font-size':'0.75em', 'top':'35px', 'left':'36px' });
+                    cmd.find('div.middle').css({ 'font-size':'0.75em', 'top':'18px' });
+                    cmd.find('div.lastquarter').css({ 'font-size':'0.75em', 'top':'35px', 'right':'36px' });
+                    cmd.find('div.maximum').css({ 'font-size':'0.75em', 'top':'65px', 'right':'32px' });
+                    cmd.find('.tw-gauge-value').css({ 'font-size':'24px', 'top':'84px', 'right':'41px' });
+                    cmd.find('.tw-gauge-unit').css({ 'font-size':'10px', 'top':'67px' });
+                    break;
+                case 'small' :
+                    cmd.css({ 'width':'100px', 'height':'120px' });
+                    cmd.find('.tw-gauge img').css({ 'width':'80px', 'height':'80px' });
+                    cmd.find('.tw-gauge-indicator').css({ 'width':'48px', 'height':'48px', 'top':'31px', 'left':'26px' });
+                    cmd.find('div.minimum').css({ 'font-size':'0.6em', 'top':'42px', 'left':'25px' });
+                    cmd.find('div.firstquarter').css({ 'font-size':'0.6em', 'top':'24px', 'left':'27px' });
+                    cmd.find('div.middle').css({ 'font-size':'0.6em', 'top':'12px' });
+                    cmd.find('div.lastquarter').css({ 'font-size':'0.6em', 'top':'24px', 'right':'27px' });
+                    cmd.find('div.maximum').css({ 'font-size':'0.6em', 'top':'42px', 'right':'25px' });
+                    cmd.find('.tw-gauge-value').css({ 'font-size':'16px', 'top':'53px', 'right':'30px' });
+                    cmd.find('.tw-gauge-unit').css({ 'font-size':'6px', 'top':'43px' });
+                    break;
+                case 'medium' :
+                default:
+                    cmd.css({ 'width':'120px', 'height':'140px' });
+                    cmd.find('.tw-gauge img').css({ 'width':'100px', 'height':'100px' });
+                    cmd.find('.tw-gauge-indicator').css({ 'width':'60px', 'height':'60px', 'top':'35px', 'left':'30px' });
+                    cmd.find('div.minimum').css({ 'font-size':'0.7em', 'top':'55px', 'left':'30px' });
+                    cmd.find('div.firstquarter').css({ 'font-size':'0.7em', 'top':'32px', 'left':'32px' });
+                    cmd.find('div.middle').css({ 'font-size':'0.7em', 'top':'16px' });
+                    cmd.find('div.lastquarter').css({ 'font-size':'0.7em', 'top':'32px', 'right':'32px' });
+                    cmd.find('div.maximum').css({ 'font-size':'0.7em', 'top':'55px', 'right':'30px' });
+                    cmd.find('.tw-gauge-value').css({ 'font-size':'20px', 'top':'68px', 'right':'35px' });
+                    cmd.find('.tw-gauge-unit').css({ 'font-size':'8px', 'top':'55px' });
+                    break;
+            }
+        }
+        jeedom.cmd.update['#id#']({ display_value:'#state#', valueDate:'#valueDate#', collectDate:'#collectDate#', alertLevel:'#alertLevel#' });
+    </script>
+    <style>
+        @font-face {
+            font-family: "Digital7";
+            src: url("plugins/TopWidgets/images/gauge/font/digital-7.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+            color: #F0F0F0;
+        }
+        .cmd[data-cmd_uid='#uid#'] .tw-gauge-scale {
+            position:absolute;
+            font-weight:bold;
+        }
+    </style>
+</div>

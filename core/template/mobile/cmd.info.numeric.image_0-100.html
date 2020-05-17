@@ -1,0 +1,46 @@
+<div class="cmd cmd-widget" data-type="info" data-subtype="binary" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
+	<center>
+		<div class="cmdName #hide_name#">#name_display#</div>
+		<div class="imgCmd"></div>
+	</center>
+	<script>
+		jeedom.cmd.update['#id#'] = function(_options){
+			var cmd = $('.cmd[data-cmd_id=#id#]');
+            var imageStyle = '';
+
+            // Paramétre du dossier des images classées par type
+            var paramType = ('#type#' == '#'+'type#') ? '#generic_type#/' : '#type#/';
+            if (paramType == '/') paramType = 'defaut/';
+
+            // Paramètre de l'image
+            var paramLogo = ('#logo#' == '#'+'logo#') ? 'defaut' : '#logo#';
+            var paramExt = ('#extension#' == '#'+'extension#') ? '' : '#extension#';
+            paramExt = (paramExt == '' && paramType != 'animated/') ? 'png' : 'gif';
+            var paramSize = ('#size_mobile#' == '#'+'size_mobile#') ? '#size#' : '#size_mobile#';
+            paramSize = parseInt(paramSize);
+            if ( !isNaN(paramSize) ) {
+                imageStyle = imageStyle + 'max-width:' + paramSize + 'px;';
+            } else {
+                imageStyle = imageStyle + 'max-width:80px;';
+            }
+            var paramStyle = ('#style#' == '#'+'style#') ? '' : '#style#';
+            paramStyle = ('#style_mobile#' == '#'+'style_mobile#') ? paramStyle : '#style_mobile#';
+            if ( paramStyle ) {
+                imageStyle = imageStyle + ' ' + paramStyle;
+            }
+
+            // Affichage de l'image
+            cmd.attr('title', 'Date de valeur : ' + _options.valueDate + '<br/>Date de collecte : ' + _options.collectDate);
+            var imageURI  = 'plugins/TopWidgets/images/numeric/' + paramType.toLowerCase() + paramLogo.toLowerCase();
+            var imageTag  = '<img src="' + imageURI + '-%s.' + paramExt + '">';
+            var value = Math.round(parseFloat(_options.display_value) / 10) * 10;
+            if ( isNaN(value) ) {
+                cmd.find('.imgCmd').empty().append('<img src="plugins/TopWidgets/images/error.png">');
+            } else {
+                cmd.find('.imgCmd').empty().append(imageTag.replace('%s', value));
+            }
+            cmd.find('.imgCmd img').attr('style', imageStyle);
+		}
+		jeedom.cmd.update['#id#']({ display_value:'#state#', valueDate:'#valueDate#', collectDate:'#collectDate#', alertLevel:'#alertLevel#' });
+	</script>
+</div>

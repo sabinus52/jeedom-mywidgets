@@ -1,0 +1,62 @@
+<div class="cmd cmd-widget cursor #history#" data-type="info" data-subtype="binary" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
+    <div class="title #hide_name#">
+        <div class="cmdName">#name_display#</div>
+    </div>
+    <div class="content-sm ">
+        <span class="imgCmd"></span>
+    </div>
+    <div class="value">
+        <span class="timeCmd label label-default value"></span>
+    </div>
+    <script>
+        jeedom.cmd.update['#id#'] = function(_options) {
+            var cmd = $('.cmd[data-cmd_id=#id#]');
+            var imageStyle = '';
+
+            // Paramétre du dossier des images classées par type
+            var paramType = ('#type#' == '#'+'type#') ? '#generic_type#/' : '#type#/';
+            if (paramType == '/') paramType = 'defaut/';
+
+            // Paramètre de l'image
+            var paramLogo = ('#logo#' == '#'+'logo#') ? 'defaut' : '#logo#';
+            var paramExt = ('#extension#' == '#'+'extension#') ? '' : '#extension#';
+            paramExt = (paramExt == '' && paramType != 'animated/') ? 'png' : 'gif';
+            var paramSize = ('#size_dashboard#' == '#'+'size_dashboard#') ? '#size#' : '#size_dashboard#';
+            paramSize = parseInt(paramSize);
+            if ( !isNaN(paramSize) ) {
+                imageStyle = imageStyle + 'width:' + paramSize + 'px;';
+            } else {
+                imageStyle = imageStyle + 'width:80px;';
+            }
+            var paramStyle = ('#style#' == '#'+'style#') ? '' : '#style#';
+            paramStyle = ('#style_dashboard#' == '#'+'style_dashboard#') ? paramStyle : '#style_dashboard#';
+            if ( paramStyle ) {
+                imageStyle = imageStyle + ' ' + paramStyle;
+            }
+
+            // Paramètre TimeLine
+            var paramTime = '#time#';
+
+            // Affichage de l'image
+            cmd.attr('title', 'Date de valeur : ' + _options.valueDate + '<br/>Date de collecte : ' + _options.collectDate);
+            var imageURI  = 'plugins/TopWidgets/images/binary/' + paramType.toLowerCase() + paramLogo.toLowerCase();
+            var imageTag  = '<img src="' + imageURI + '-%s.' + paramExt + '">';
+            if ( _options.display_value == '1' ) {
+                cmd.attr('data-state','on');
+                cmd.find('.imgCmd').empty().append(imageTag.replace('%s', 'on'));
+            } else {
+                cmd.attr('data-state','off');
+                cmd.find('.imgCmd').empty().append(imageTag.replace('%s', 'off'));
+            }
+            cmd.find('.imgCmd img').attr('style', imageStyle);
+
+            // Affichage de la timeline
+            if ( paramTime == 'duree' ) {
+                jeedom.cmd.displayDuration(_options.valueDate, cmd.find('.timeCmd'));
+            } else {
+                cmd.find('.timeCmd').parent().remove();
+            }
+        } 
+        jeedom.cmd.update['#id#']({ display_value:'#state#', valueDate:'#valueDate#', collectDate:'#collectDate#', alertLevel:'#alertLevel#' });
+    </script>
+</div>

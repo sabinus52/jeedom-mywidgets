@@ -1,0 +1,20 @@
+{
+	"id" : "TopWidgets",
+	"name" : "Mes widgets",
+	"description" : "Ensemble des widgets Jeedom les plus populaires et reactualisés pour la V4",
+	"licence" : "AGPL",
+	"author" : "Sabinus52",
+	"require" : "4.0",
+	"category" : "programming",
+	"hasDependency" : false,
+	"hasOwnDeamon" : false,
+	"maxDependancyInstallTime" : 0,
+	"changelog" : "https://sabinus52.github.io/jeedom-mywidgets/#language#/changelog",
+	"documentation" : "https://sabinus52.github.io/jeedom-mywidgets/#language#/",
+	"link" : {
+		"forum":"",
+		"video" : ""
+	},
+	"language" : ["fr_FR","en_US","de_DE","sp_SP","ru_RU","id_ID","it_IT"],
+	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"]
+}
