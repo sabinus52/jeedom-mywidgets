@@ -21,14 +21,19 @@ Aperçu                                    | Valeur du type générique
 
 ### Paramétrage du widget
 
-Possiblité de configurer l'affichage du widget avec les paramètres optionnels suivants :
+Paramètres à ajouter dans ***Paramètres optionnels widget***
 
-Nom du paramètre     | Valeur par défaut | Valeurs possibles | Description
--------------------- | ----------------- | ----------------- | -----------
-**size**             | 80                | un entier         |  Dimension de l'image en pixels. *(version dashboard et mobile)*
-| **size_dashboard** | *size*            | un entier         | Dimension de l'image en pixels en version dashboard
-**size_mobile**      | *size*            | un entier         | Dimension de l'image en pixels en version mobile
-**style**            |                   | code css          | Style CSS du widget. *(version dashboard et mobile)*
-**style_dashboard**  | *style*           | code css          | Style CSS du widget en version dashboard
-**style_mobile**     | *style*           | code css          | Style CSS du widget en version mobile
-**position**         | right             | left right bottom | Position des statistiques
+![](../images/param-widget.png)
+
+
+#### Possiblité de configurer l'affichage du widget avec les paramètres optionnels suivants :
+
+Nom du paramètre     | Valeur par défaut | Valeurs possibles | Dashboard | Mobile | Description
+-------------------- | ----------------- | ----------------- | --------- | ------ | -----------
+**size**             | 80                | [0-9]+            | Oui       | Oui    | Dimension de l'image en pixels.
+**size_dashboard**   | *size*            | [0-9]+            | Oui       | Nom    | Dimension de l'image en pixels en version dashboard
+**size_mobile**      | *size*            | [0-9]+            | Non       | Oui    | Dimension de l'image en pixels en version mobile
+**style**            |                   | code css          | Oui       | Oui    | Style CSS du widget.
+**style_dashboard**  | *style*           | code css          | Oui       | Non    | Style CSS du widget en version dashboard
+**style_mobile**     | *style*           | code css          | Non       | Oui    | Style CSS du widget en version mobile
+**position**         | right             | left right bottom | Oui       | Oui    | Position des statistiques
