@@ -1,6 +1,12 @@
 <div class="cmd cmd-widget cursor" data-type="action" data-subtype="other" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
+    <div class="title #hide_name#">
+        <div  class="cmdName">#valueName#</div>
+      </div>
     <div class="content-sm ">
         <span class="imgCmd"></span>
+    </div>
+    <div class="value">
+        <span class="timeCmd label label-default #value_history#" data-type="info" data-cmd_id="#value_id#"></span>
     </div>
     <script>
         jeedom.cmd.update['#id#'] = function(_options) {
@@ -28,6 +34,28 @@
             var imageURI = 'plugins/TopWidgets/images/action/' + paramLogo.toLowerCase().replace(' ', '');
             cmd.find('.imgCmd').empty().append('<img src="' + imageURI + '.png" >');
             cmd.find('.imgCmd img').attr('style', imageStyle);
+
+            if (_options.display_value == '1' || _options.display_value >= 1 || _options.display_value == '99' || _options.display_value == 99 || _options.display_value == 'on') {
+                cmd.attr('data-state','on');
+                if (jeedom.cmd.normalizeName('#name#') == 'on') {
+                    cmd.hide();
+                } else {
+                    cmd.show();
+                    if ('#_time_widget_#' == '1') {
+                        jeedom.cmd.displayDuration(_options.valueDate, cmd.find('.timeCmd'), '#time#')
+                    }
+                }
+            } else {
+                cmd.attr('data-state','off');
+                if (jeedom.cmd.normalizeName('#name#') == 'off') {
+                    cmd.hide()
+                } else {
+                    cmd.show();
+                    if ('#_time_widget_#' == '1') {
+                        jeedom.cmd.displayDuration(_options.valueDate, cmd.find('.timeCmd'), '#time#')
+                    }
+                }
+            }
         }
 
         jeedom.cmd.update['#id#']({ display_value:'#state#', valueDate:'#valueDate#', collectDate:'#collectDate#', alertLevel:'#alertLevel#' });
