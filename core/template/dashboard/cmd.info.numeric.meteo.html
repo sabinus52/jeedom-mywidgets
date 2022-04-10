@@ -17,7 +17,11 @@
             </div>
         </div>
     </div>
-
+    <template>
+        <div>position : right|left ({{Position de l'image à afficher}})</div>
+        <div>size, size_dashboard : 80 ({{Taille en px de l'image}})</div>
+        <div>style : ({{Style CSS additionnel}})</div>
+    </template>
     <script>
         jeedom.cmd.update['#id#'] = function(_options) {
             var cmd = $('.cmd[data-cmd_id=#id#]');

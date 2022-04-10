@@ -19,9 +19,9 @@
             var paramSize = ('#size_mobile#' == '#'+'size_mobile#') ? '#size#' : '#size_mobile#';
             paramSize = parseInt(paramSize);
             if ( !isNaN(paramSize) ) {
-                imageStyle = imageStyle + 'max-width:' + paramSize + 'px;';
+                imageStyle = imageStyle + 'max-width:' + paramSize + 'px !important;';
             } else {
-                imageStyle = imageStyle + 'max-width:80px;';
+                imageStyle = imageStyle + 'max-width:80px !important;';
             }
             var paramStyle = ('#style#' == '#'+'style#') ? '' : '#style#';
             paramStyle = ('#style_mobile#' == '#'+'style_mobile#') ? paramStyle : '#style_mobile#';

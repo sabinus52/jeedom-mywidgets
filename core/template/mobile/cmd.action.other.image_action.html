@@ -1,14 +1,20 @@
 <div class="cmd cmd-widget #history#" data-type="action" data-subtype="other" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" title="#collectDate#">
     <center>
+        <div class="cmdName #hide_name#">#valueName#</div>
         <div class="imgCmd cursor"></div>
+        <span class="timeCmd value #value_history#" data-type="info" data-cmd_id="#value_id#"></span>
     </center>
     <script>
         jeedom.cmd.update['#id#'] = function(_options) {
             var cmd = $('.cmd[data-cmd_id=#id#]');
             var imageStyle = '';
 
+            // Paramétre du dossier des images classées par type
+            var paramType = ('#type#' == '#'+'type#') ? '#generic_type#/' : '#type#/';
+            if (paramType == '/') paramType = '/';
+
             // Paramètre de l'image
-            var paramLogo = ('#logo#' == '#'+'logo#') ? '#generic_type#' : '#logo#';
+            var paramLogo = ('#logo#' == '#'+'logo#') ? 'default' : '#logo#';
             if (paramLogo == '') paramLogo = 'defaut';
             var paramExt = ('#extension#' == '#'+'extension#') ? '' : '#extension#';
             var paramSize = ('#size_mobile#' == '#'+'size_mobile#') ? '#size#' : '#size_mobile#';
@@ -23,12 +29,37 @@
             if ( paramStyle ) {
                 imageStyle = imageStyle + ' ' + paramStyle;
             }
+
+            // Paramètre TimeLine
+            var paramTime = '#time#';
            
             // Affichage de l'image
             cmd.attr('title', "#name_display#");
-            var imageURI = 'plugins/TopWidgets/images/action/' + paramLogo.toLowerCase().replace(' ', '');
+            var imageURI = 'plugins/TopWidgets/images/action/' + paramType.toLowerCase() + paramLogo.toLowerCase().replace(' ', '');
             cmd.find('.imgCmd').empty().append('<img src="' + imageURI + '.png" >');
             cmd.find('.imgCmd img').attr('style', imageStyle);
+
+            if (_options.display_value == '1' || _options.display_value >= 1 || _options.display_value == '99' || _options.display_value == 99 || _options.display_value == 'on') {
+                cmd.attr('data-state','on');
+                if (jeedom.cmd.normalizeName('#name#') == 'on') {
+                    cmd.hide();
+                } else {
+                    cmd.show();
+                    if ( paramTime != '#'+'time#' ) {
+                        jeedom.cmd.displayDuration(_options.valueDate, cmd.find('.timeCmd'), paramTime)
+                    }
+                }
+            } else {
+                cmd.attr('data-state','off');
+                if (jeedom.cmd.normalizeName('#name#') == 'off') {
+                    cmd.hide()
+                } else {
+                    cmd.show();
+                    if ( paramTime != '#'+'time#' ) {
+                        jeedom.cmd.displayDuration(_options.valueDate, cmd.find('.timeCmd'), paramTime)
+                    }
+                }
+            }
         }
 
         jeedom.cmd.update['#id#']({ display_value:'#state#', valueDate:'#valueDate#', collectDate:'#collectDate#', alertLevel:'#alertLevel#' });

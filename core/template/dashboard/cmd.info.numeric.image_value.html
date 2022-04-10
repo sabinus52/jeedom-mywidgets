@@ -1,13 +1,24 @@
-<div class="cmd cmd-widget cursor #history#" data-type="info" data-subtype="numeric" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
+<div class="cmd cmd-widget #history#" data-type="info" data-subtype="numeric" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" data-eqLogic_id="#eqLogic_id#">
     <div class="title #hide_name#">
         <div class="cmdName">#name_display#</div>
     </div>
-    <div class="content-sm ">
+    <div class="content-sm">
         <span class="imgCmd"></span>
     </div>
     <div class="value">
-        <span class="timeCmd label label-default value"></span>
+        <span class="timeCmd label label-default #history#" data-type="info"></span>
     </div>
+    <div class="cmdStats #hide_history#">
+        <span title='{{Min}}' class='tooltips'>#minHistoryValue#</span>|<span title='{{Moyenne}}' class='tooltips'>#averageHistoryValue#</span>|<span title='{{Max}}' class='tooltips'>#maxHistoryValue#</span> <i class="#tendance#"></i>
+    </div>
+    <template>
+        <div>type : animated|equipment ({{Type de l'image à afficher}})</div>
+        <div>logo : fibaro ({{Nom du logo à afficher}})</div>
+        <div>extension : png|gif ({{Extension si différente}})</div>
+        <div>size, size_dashboard : 80 ({{Taille en px de l'image}})</div>
+        <div>style : ({{Style CSS additionnel}})</div>
+        <div>time : duree|date ({{Affiche l'info time sous forme de durée}})</div>
+    </template>
     <script>
 	    jeedom.cmd.update['#id#'] = function(_options) {
             var cmd = $('.cmd[data-cmd_id=#id#]');
@@ -24,9 +35,9 @@
             var paramSize = ('#size_dashboard#' == '#'+'size_dashboard#') ? '#size#' : '#size_dashboard#';
             paramSize = parseInt(paramSize);
             if ( !isNaN(paramSize) ) {
-                imageStyle = imageStyle + 'width:' + paramSize + 'px;';
+                imageStyle = imageStyle + 'width:' + paramSize + 'px !important;';
             } else {
-                imageStyle = imageStyle + 'width:80px;';
+                imageStyle = imageStyle + 'width:80px !important;';
             }
             var paramStyle = ('#style#' == '#'+'style#') ? '' : '#style#';
             paramStyle = ('#style_dashboard#' == '#'+'style_dashboard#') ? paramStyle : '#style_dashboard#';
@@ -38,7 +49,7 @@
             var paramTime = '#time#';
 
             // Affichage des données
-            cmd.attr('title', 'Date de valeur : ' + _options.valueDate + '<br/>Date de collecte : ' + _options.collectDate);
+            cmd.attr('title', '{{Date de valeur}} : '+_options.valueDate+'<br/>{{Date de collecte}} : '+_options.collectDate+'<br/>{{Valeur}} : '+_options.display_value+'#unite#')
             var imageURI  = 'plugins/TopWidgets/images/numeric/' + paramType.toLowerCase() + paramLogo.toLowerCase();
             var imageTag  = '<img src="' + imageURI + '-%s.' + paramExt + '">';
             var value = parseInt(_options.display_value);
@@ -50,8 +61,8 @@
             cmd.find('.imgCmd img').attr('style', imageStyle);
 
             // Affichage de la timeline
-            if (paramTime == 'duree') {
-                jeedom.cmd.displayDuration(_options.valueDate,  cmd.find('.timeCmd'));
+            if (paramTime != '#'+'time#') {
+                jeedom.cmd.displayDuration(_options.valueDate, cmd.find('.timeCmd'), paramTime);
             } else {
                 cmd.find('.timeCmd').parent().remove();
             }

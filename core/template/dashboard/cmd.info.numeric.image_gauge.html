@@ -16,7 +16,10 @@
     <div class="cmdStats #hide_history#">
         <span title='Min' class='tooltips'>#minHistoryValue#</span>|<span title='Moyenne' class='tooltips'>#averageHistoryValue#</span>|<span title='Max' class='tooltips'>#maxHistoryValue#</span> <i class="#tendance#"></i>
     </div>
-
+    <template>
+        <div>color : blue, green, orange, pink, purple, turquoise, white, yellow ({{Couleur de la gauge}})</div>
+        <div>size : small, medium, large ({{Taille de la gauge}})</div>
+    </template>
     <script>
         jeedom.cmd.update['#id#'] = function(_options) {
             var cmd = $('.cmd[data-cmd_id=#id#]');

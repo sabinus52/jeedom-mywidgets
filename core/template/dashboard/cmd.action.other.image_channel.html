@@ -2,6 +2,11 @@
     <div class="content-sm ">
         <span class="imgCmd"></span>
     </div>
+    <template>
+        <div>logo : fibaro ({{Nom du logo à afficher}})</div>
+        <div>scale : xx ({{Taille de l'image}})</div>
+        <div>style : ({{Style CSS additionnel}})</div>
+    </template>
     <script>
         jeedom.cmd.update['#id#'] = function(_options) {
             var cmd = $('.cmd[data-cmd_id=#id#]');

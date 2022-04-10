@@ -1,4 +1,4 @@
-<div class="cmd cmd-widget cursor #history#" data-type="info" data-subtype="binary" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
+<div class="cmd cmd-widget #history#" data-type="info" data-subtype="binary" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
     <div class="title #hide_name#">
         <div class="cmdName">#name_display#</div>
     </div>
@@ -28,6 +28,14 @@
     <div class="value" style="clear: both; position: relative;">
         <span class="timeCmd label label-default value timeid"></span>
     </div>
+    <template>
+        <div>type : animated|light ({{Type de l'image à afficher}})</div>
+        <div>logo : fibaro ({{Nom du logo à afficher}})</div>
+        <div>extension : png|gif ({{Extension si différente}})</div>
+        <div>size, size_dashboard : 80 ({{Taille en px de l'image}})</div>
+        <div>style : ({{Style CSS additionnel}})</div>
+        <div>time : duree|date ({{Affiche l'info time sous forme de durée}})</div>
+    </template>
     <script>
         jeedom.cmd.update['#id#'] = function(_options) {
             var cmd = $('.cmd[data-cmd_id=#id#]');
@@ -42,9 +50,9 @@
             var paramSize = ('#size_dashboard#' == '#'+'size_dashboard#') ? '#size#' : '#size_dashboard#';
             paramSize = parseInt(paramSize);
             if ( !isNaN(paramSize) ) {
-                imageStyle = imageStyle + 'width:' + paramSize + 'px;';
+                imageStyle = imageStyle + 'width:' + paramSize + 'px !important;';
             } else {
-                imageStyle = imageStyle + 'width:80px;';
+                imageStyle = imageStyle + 'width:80px !important;';
             }
             var paramStyle = ('#style#' == '#'+'style#') ? '' : '#style#';
             paramStyle = ('#style_dashboard#' == '#'+'style_dashboard#') ? paramStyle : '#style_dashboard#';
@@ -82,8 +90,8 @@
             }
 
             // Affichage de la timeline
-            if ( paramTime == 'duree' ) {
-                jeedom.cmd.displayDuration(_options.valueDate, cmd.find('.timeid'));
+            if ( paramTime != '#'+'time#' ) {
+                jeedom.cmd.displayDuration(_options.valueDate, cmd.find('.timeid'), paramTime);
             } else {
                 cmd.find('.timeid').parent().remove();
             }

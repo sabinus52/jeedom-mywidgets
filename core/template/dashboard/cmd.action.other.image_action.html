@@ -8,13 +8,25 @@
     <div class="value">
         <span class="timeCmd label label-default #value_history#" data-type="info" data-cmd_id="#value_id#"></span>
     </div>
+    <template>
+        <div>type : light_on|light_off ({{Type de l'image à afficher}})</div>
+        <div>logo : fibaro ({{Nom du logo à afficher}})</div>
+        <div>extension : png|gif ({{Extension si différente}})</div>
+        <div>size, size_dashboard : 80 ({{Taille en px de l'image}})</div>
+        <div>style : ({{Style CSS additionnel}})</div>
+        <div>time : duree|date ({{Affiche l'info time sous forme de durée}})</div>
+    </template>
     <script>
         jeedom.cmd.update['#id#'] = function(_options) {
             var cmd = $('.cmd[data-cmd_id=#id#]');
             var imageStyle = '';
 
+            // Paramétre du dossier des images classées par type
+            var paramType = ('#type#' == '#'+'type#') ? '#generic_type#/' : '#type#/';
+            if (paramType == '/') paramType = '/';
+
             // Paramètre de l'image
-            var paramLogo = ('#logo#' == '#'+'logo#') ? '#generic_type#' : '#logo#';
+            var paramLogo = ('#logo#' == '#'+'logo#') ? 'default' : '#logo#';
             if (paramLogo == '') paramLogo = 'defaut';
             var paramExt = ('#extension#' == '#'+'extension#') ? '' : '#extension#';
             var paramSize = ('#size_dashboard#' == '#'+'size_dashboard#') ? '#size#' : '#size_dashboard#';
@@ -29,9 +41,12 @@
             if ( paramStyle ) {
                 imageStyle = imageStyle + ' ' + paramStyle;
             }
+
+            // Paramètre TimeLine
+            var paramTime = '#time#';
            
             // Affichage de l'image
-            var imageURI = 'plugins/TopWidgets/images/action/' + paramLogo.toLowerCase().replace(' ', '');
+            var imageURI = 'plugins/TopWidgets/images/action/' + paramType.toLowerCase() + paramLogo.toLowerCase().replace(' ', '');
             cmd.find('.imgCmd').empty().append('<img src="' + imageURI + '.png" >');
             cmd.find('.imgCmd img').attr('style', imageStyle);
 
@@ -41,8 +56,8 @@
                     cmd.hide();
                 } else {
                     cmd.show();
-                    if ('#_time_widget_#' == '1') {
-                        jeedom.cmd.displayDuration(_options.valueDate, cmd.find('.timeCmd'), '#time#')
+                    if ( paramTime != '#'+'time#' ) {
+                        jeedom.cmd.displayDuration(_options.valueDate, cmd.find('.timeCmd'), paramTime)
                     }
                 }
             } else {
@@ -51,8 +66,8 @@
                     cmd.hide()
                 } else {
                     cmd.show();
-                    if ('#_time_widget_#' == '1') {
-                        jeedom.cmd.displayDuration(_options.valueDate, cmd.find('.timeCmd'), '#time#')
+                    if ( paramTime != '#'+'time#' ) {
+                        jeedom.cmd.displayDuration(_options.valueDate, cmd.find('.timeCmd'), paramTime)
                     }
                 }
             }
