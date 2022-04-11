@@ -15,6 +15,7 @@
         <div>size, size_dashboard : 80 ({{Taille en px de l'image}})</div>
         <div>style : ({{Style CSS additionnel}})</div>
         <div>time : duree|date ({{Affiche l'info time sous forme de durée}})</div>
+        <div>inverse : 1 ({{Si la valeur affichée est inversée}})</div>
     </template>
     <script>
         jeedom.cmd.update['#id#'] = function(_options) {
@@ -45,16 +46,29 @@
             // Paramètre TimeLine
             var paramTime = '#time#';
 
+            // Si valeur inversé
+            var paramInverse = ('#inverse#' == '#'+'inverse#') ? 0 : parseInt('#inverse#');
+
             // Affichage de l'image
             cmd.attr('title', 'Date de valeur : ' + _options.valueDate + '<br/>Date de collecte : ' + _options.collectDate);
             var imageURI  = 'plugins/TopWidgets/images/binary/' + paramType.toLowerCase() + paramLogo.toLowerCase();
             var imageTag  = '<img src="' + imageURI + '-%s.' + paramExt + '">';
-            if ( _options.display_value == '1' ) {
-                cmd.attr('data-state','on');
-                cmd.find('.imgCmd').empty().append(imageTag.replace('%s', 'on'));
+            if ( paramInverse ) {
+                if ( _options.display_value == '1' ) {
+                    cmd.attr('data-state','on');
+                    cmd.find('.imgCmd').empty().append(imageTag.replace('%s', 'off'));
+                } else {
+                    cmd.attr('data-state','off');
+                    cmd.find('.imgCmd').empty().append(imageTag.replace('%s', 'on'));
+                }
             } else {
-                cmd.attr('data-state','off');
-                cmd.find('.imgCmd').empty().append(imageTag.replace('%s', 'off'));
+                if ( _options.display_value == '1' ) {
+                    cmd.attr('data-state','on');
+                    cmd.find('.imgCmd').empty().append(imageTag.replace('%s', 'on'));
+                } else {
+                    cmd.attr('data-state','off');
+                    cmd.find('.imgCmd').empty().append(imageTag.replace('%s', 'off'));
+                }
             }
             cmd.find('.imgCmd img').attr('style', imageStyle);
 
