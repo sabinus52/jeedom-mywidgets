@@ -52,6 +52,7 @@
 
             if (_options.display_value == '1' || _options.display_value >= 1 || _options.display_value == '99' || _options.display_value == 99 || _options.display_value == 'on') {
                 cmd.attr('data-state','on');
+                if (jeedom.cmd.normalizeName('#name#').substring(0,2).toLowerCase() == 'on') {
                 if (jeedom.cmd.normalizeName('#name#') == 'on') {
                     cmd.hide();
                 } else {
@@ -62,6 +63,7 @@
                 }
             } else {
                 cmd.attr('data-state','off');
+                if (jeedom.cmd.normalizeName('#name#').substring(0,3).toLowerCase() == 'off') {
                 if (jeedom.cmd.normalizeName('#name#') == 'off') {
                     cmd.hide()
                     cmd.hide();

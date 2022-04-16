@@ -14,7 +14,7 @@
             if (paramType == '/') paramType = '/';
 
             // Paramètre de l'image
-            var paramLogo = ('#logo#' == '#'+'logo#') ? 'default' : '#logo#';
+            var paramLogo = ('#logo#' == '#'+'logo#') ? 'defaut' : '#logo#';
             if (paramLogo == '') paramLogo = 'defaut';
             var paramExt = ('#extension#' == '#'+'extension#') ? '' : '#extension#';
             var paramSize = ('#size_mobile#' == '#'+'size_mobile#') ? '#size#' : '#size_mobile#';
@@ -41,7 +41,7 @@
 
             if (_options.display_value == '1' || _options.display_value >= 1 || _options.display_value == '99' || _options.display_value == 99 || _options.display_value == 'on') {
                 cmd.attr('data-state','on');
-                if (jeedom.cmd.normalizeName('#name#') == 'on') {
+                if (jeedom.cmd.normalizeName('#name#').substring(0,2).toLowerCase() == 'on') {
                     cmd.hide();
                 } else {
                     cmd.show();
@@ -51,8 +51,8 @@
                 }
             } else {
                 cmd.attr('data-state','off');
-                if (jeedom.cmd.normalizeName('#name#') == 'off') {
-                    cmd.hide()
+                if (jeedom.cmd.normalizeName('#name#').substring(0,3).toLowerCase() == 'off') {
+                    cmd.hide();
                 } else {
                     cmd.show();
                     if ( paramTime != '#'+'time#' ) {
