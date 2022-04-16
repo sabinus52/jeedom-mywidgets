@@ -8,9 +8,10 @@
         jeedom.cmd.update['#id#'] = function(_options) {
             var cmd = $('.cmd[data-cmd_id=#id#]');
             var imageStyle = '';
+            var typeGeneric = '#generic_type#';
 
             // Paramétre du dossier des images classées par type
-            var paramType = ('#type#' == '#'+'type#') ? '#generic_type#/' : '#type#/';
+            var paramType = ('#type#' == '#'+'type#') ? typeGeneric+'/' : '#type#/';
             if (paramType == '/') paramType = '/';
 
             // Paramètre de l'image
@@ -36,11 +37,14 @@
             // Affichage de l'image
             cmd.attr('title', "#name_display#");
             var imageURI = 'plugins/TopWidgets/images/action/' + paramType.toLowerCase() + paramLogo.toLowerCase().replace(' ', '');
-            cmd.find('.imgCmd').empty().append('<img src="' + imageURI + '.png" >');
-            cmd.find('.imgCmd img').attr('style', imageStyle);
+            var imageTag  = '<img src="' + imageURI + '-%s' + '.png" >';
+            var stateReplace = '';
 
             if (_options.display_value == '1' || _options.display_value >= 1 || _options.display_value == '99' || _options.display_value == 99 || _options.display_value == 'on') {
                 cmd.attr('data-state','on');
+                if ( typeGeneric.substr(-6, 6) == 'TOGGLE' ) stateReplace = '-on';
+                cmd.find('.imgCmd').empty().append(imageTag.replace('-%s', stateReplace));
+                cmd.find('.imgCmd img').attr('style', imageStyle);
                 if (jeedom.cmd.normalizeName('#name#').substring(0,2).toLowerCase() == 'on') {
                     cmd.hide();
                 } else {
@@ -51,6 +55,9 @@
                 }
             } else {
                 cmd.attr('data-state','off');
+                if ( typeGeneric.substr(-6, 6) == 'TOGGLE' ) stateReplace = '-off';
+                cmd.find('.imgCmd').empty().append(imageTag.replace('-%s', stateReplace));
+                cmd.find('.imgCmd img').attr('style', imageStyle);
                 if (jeedom.cmd.normalizeName('#name#').substring(0,3).toLowerCase() == 'off') {
                     cmd.hide();
                 } else {
