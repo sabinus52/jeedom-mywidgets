@@ -26,7 +26,7 @@
             if (paramType == '/') paramType = '/';
 
             // Paramètre de l'image
-            var paramLogo = ('#logo#' == '#'+'logo#') ? 'default' : '#logo#';
+            var paramLogo = ('#logo#' == '#'+'logo#') ? 'defaut' : '#logo#';
             if (paramLogo == '') paramLogo = 'defaut';
             var paramExt = ('#extension#' == '#'+'extension#') ? '' : '#extension#';
             var paramSize = ('#size_dashboard#' == '#'+'size_dashboard#') ? '#size#' : '#size_dashboard#';
@@ -64,6 +64,7 @@
                 cmd.attr('data-state','off');
                 if (jeedom.cmd.normalizeName('#name#') == 'off') {
                     cmd.hide()
+                    cmd.hide();
                 } else {
                     cmd.show();
                     if ( paramTime != '#'+'time#' ) {
